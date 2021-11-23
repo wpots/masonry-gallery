@@ -19,6 +19,7 @@ export default {
       console.log('dragging', ev);
     };
     const root = ref(null);
+    // eslint-disable-next-line
     return { root, dropHandler, dragOverHandler, inputHandler };
   },
 };
