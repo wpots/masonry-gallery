@@ -1,56 +1,40 @@
 <template>
   <div class="upload">
     <h1>This is an upload page</h1>
-
     <div class="form-group">
-      <label for="title">Title</label>
-      <input id="title" class="form-input" type="text" name="title" placeholder="Title" />
-      <small class="helper">this will be the caption of your picture</small>
+      <label for="dropzone">Upload file(s)</label>
     </div>
-
-    <div class="form-group">
-      <label for="description">Description</label>
-      <textarea id="description" class="form-text-area" name="description" rows="4"></textarea>
-      <small class="helper">this will appear below your picture</small>
-    </div>
-    <div class="form-group">
-      <label for="tags">Keywords</label>
-      <input
-        id="tags"
-        class="form-input"
-        type="text"
-        name="tags"
-        @change="onChange"
-        placeholder="e.g. handstiched"
-      />
-      <small class="helper">type keyword and hit enter</small>
-    </div>
-    <div class="form-group">
-      <label for="dropzone">Image File</label>
-    </div>
-    <DropZone v-model="file" />
+    <DropZone @filesDropped="onFilesDropped" />
+    <DroppedList :items="files" />
+    <button v-if="files" @click="onSubmit">submit</button>
   </div>
 </template>
 <script>
 import { ref } from 'vue';
 import DropZone from '@/components/DropZone.vue';
+import DroppedList from '@/components/DroppedList.vue';
 
 export default {
-  components: { DropZone },
+  components: { DropZone, DroppedList },
   setup() {
-    const tagList = ref([]);
-    return { tagList };
+    const tagList = ref(null);
+    const files = ref(null);
+    const onFilesDropped = (e) => {
+      files.value = e;
+    };
+    const onSubmit = () => {};
+    // eslint-disable-next-line
+    return { tagList, onFilesDropped, files, onSubmit };
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .upload {
-  padding: 2rem 4rem;
+  padding: 2rem;
 }
 .form-group {
-  min-width: 320px;
-  max-width: 700px;
-  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 100%;
   margin-right: auto;
   margin-left: auto;
   text-align: left;
