@@ -39138,8 +39138,7 @@ async function handler(event, context) {
     api_secret: process.env.CLOUDINARY_API_SECRET,
     secure: true
   });
-  const resources = await import_cloudinary.default.v2.api.resources({ tags: true, context: true, max_results: 12 }, function(error, result) {
-    console.log(result);
+  const resources = await import_cloudinary.default.v2.api.resources({ tags: true, context: true, max_results: 10 }, function(error, result) {
     return result;
   });
   return {

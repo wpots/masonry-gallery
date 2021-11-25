@@ -9,9 +9,8 @@ export async function handler(event, context) {
   });
 
   const resources = await cloudinary.v2.api.resources(
-    { tags: true, context: true, max_results: 12 },
+    { tags: true, context: true, max_results: 10 },
     function (error, result) {
-      console.log(result);
       return result;
     },
   );
