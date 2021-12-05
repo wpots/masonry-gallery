@@ -2,7 +2,6 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
-
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -11,7 +10,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@yeger/vue-masonry-wall": "^3.0.9",
     "core-js": "^3.6.5",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0",
@@ -35,9 +33,11 @@
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^7.0.0",
+    "express-fileupload": "^1.2.1",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3",
+    "util": "^0.12.4",
     "vue-jest": "^5.0.0-0"
   }
 }

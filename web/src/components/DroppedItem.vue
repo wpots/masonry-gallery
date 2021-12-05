@@ -9,7 +9,7 @@
         type="text"
         name="title"
         placeholder="Title"
-        v-model="upload.title"
+        v-model="caption"
       />
       <!-- <small class="helper">this will be the caption of your picture</small> -->
     </div>
@@ -21,29 +21,30 @@
         class="form-text-area"
         name="description"
         rows="4"
-        v-model="upload.description"
+        v-model="alt"
       ></textarea>
       <!-- <small class="helper">this will appear below your picture</small> -->
     </div>
-    <!-- <div class="form-group" style="grid-area: tags">
+    <div class="form-group" style="grid-area: tags">
       <label for="tags">Keywords</label>
       <input
         id="tags"
         class="form-input"
         type="text"
         name="tags"
-        @change="onChange"
-        placeholder="e.g. handstiched"
+        v-model="tags"
+        placeholder="e.g. handstiched, walldecoration"
       />
-      <small class="helper">type keyword and hit enter</small>
-    </div> -->
+      <small class="helper">comma separated list of tags</small>
+    </div>
     <small class="meta" style="grid-area: filename"
       >uploaded file: {{ file.name }}<button @click="onDelete">delete</button></small
     >
+    <button @click="onSubmit">submit</button>
   </li>
 </template>
 <script>
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 
 export default {
   props: {
@@ -52,27 +53,42 @@ export default {
       default: () => {},
     },
   },
-  emits: ['deleteFile'],
+  emits: ['fileUpdated'],
   setup(props, { emit }) {
     const previewImage = ref(null);
+    const caption = ref(null);
+    const alt = ref(null);
+    const tags = ref([]);
 
     const reader = new FileReader();
     reader.onload = (e) => {
+      console.log('loaded', typeof e.target.result);
       previewImage.value = e.target.result;
     };
     reader.readAsDataURL(props.file);
-
-    const upload = reactive({
-      file: props.file,
-      title: null,
-      description: null,
-    });
-
     const onDelete = () => {
-      emit('deleteFile', props.file);
+      emit('fileUpdated', props.file);
     };
+    // eslint-disable-next-line
+    const onSubmit = () => {
 
-    return { previewImage, upload, onDelete };
+      const data = new FormData();
+      data.append('file', props.file);
+      data.append('caption', caption.value);
+      data.append('alt', alt.value);
+      data.append('tags', tags.value);
+      console.log(data);
+      // eslint-disable-next-line
+      return fetch('/api/uploader', {
+        method: 'POST',
+        // body: JSON.stringify(dataObject),
+        body: data,
+      }).then((res) => {
+        console.log('response', res);
+      });
+    };
+    // eslint-disable-next-line
+    return { previewImage, caption, alt, tags, onDelete, onSubmit };
   },
 };
 </script>

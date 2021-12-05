@@ -46,13 +46,11 @@ export default {
     // action handlers
     const dropHandler = (e) => {
       files.value.push(...e.dataTransfer.files);
-      console.log('File(s) dropped', e.dataTransfer);
       state.dragging = false;
       onFilesDropped();
     };
     const inputHandler = (e) => {
       files.value.push(...e.target.files);
-      console.log('File(s) added', files.value);
       onFilesDropped();
     };
 

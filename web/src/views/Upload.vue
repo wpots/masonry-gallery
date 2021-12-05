@@ -5,8 +5,7 @@
       <label for="dropzone">Upload file(s)</label>
     </div>
     <DropZone @filesDropped="onFilesDropped" />
-    <DroppedList :items="files" />
-    <button v-if="files" @click="onSubmit">submit</button>
+    <DroppedList :items="files" @listUpdated="onListUpdated"/>
   </div>
 </template>
 <script>
@@ -22,9 +21,14 @@ export default {
     const onFilesDropped = (e) => {
       files.value = e;
     };
-    const onSubmit = () => {};
+    const onListUpdated = (e) => {
+      console.log('updated', e);
+      const fileIndex = files.value.findIndex((file) => file.name === e.name);
+      files.value.splice(fileIndex, 1);
+    };
+
     // eslint-disable-next-line
-    return { tagList, onFilesDropped, files, onSubmit };
+    return { tagList, onFilesDropped, files, onListUpdated };
   },
 };
 </script>
